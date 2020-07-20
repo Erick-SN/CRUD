@@ -7,6 +7,9 @@ import {
   DOWNLOAD_PRODUCTS,
   DOWNLOAD_PRODUCTS_SUCCESS,
   DOWNLOAD_PRODUCTS_ERROR,
+  DELETE_PRODUCT,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
 } from '../types';
 
 //Create new product
@@ -54,6 +57,7 @@ export function getProductsAction() {
     try {
       const response = await axiosClient.get('/products');
       dispatch(getProductsSuccess(response.data));
+      Swal.fire('Deleted!', 'Product has been deleted successfully', 'success');
     } catch (error) {
       // console.log(error);
       dispatch(getProductsError());
@@ -72,5 +76,34 @@ const getProductsSuccess = (products) => ({
 
 const getProductsError = () => ({
   type: DOWNLOAD_PRODUCTS_ERROR,
+  payload: true,
+});
+
+//Delete a product by id
+
+export function deleteProductAction(id) {
+  return async (dispatch) => {
+    dispatch(deleteProduct(id));
+    try {
+      await axiosClient.delete(`/products/${id}`);
+      dispatch(deleteProductSuccess());
+    } catch (error) {
+      // console.log(error);
+      dispatch(deleteProductError());
+    }
+  };
+}
+
+const deleteProduct = (id) => ({
+  type: DELETE_PRODUCT,
+  payload: id,
+});
+
+const deleteProductSuccess = () => ({
+  type: DELETE_PRODUCT_SUCCESS,
+});
+
+const deleteProductError = () => ({
+  type: DELETE_PRODUCT_ERROR,
   payload: true,
 });
