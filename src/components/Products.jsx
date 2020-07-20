@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+//Action
 import { getProductsAction } from '../actions/productsActions';
 import Product from './Product';
 const Products = () => {
   const dispatch = useDispatch();
   useEffect(() => {
+    //Get products from the api using  action
     const loadingProducts = () => dispatch(getProductsAction());
     loadingProducts();
   }, []);
+  //Get into the global state
   const products = useSelector((state) => state.products.products);
   const error = useSelector((state) => state.products.error);
   const loading = useSelector((state) => state.products.loading);
