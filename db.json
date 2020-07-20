@@ -1,28 +1,28 @@
 {
-  "productos": [
+  "products": [
     {
       "id": 1,
-      "nombre": "Jugo de Zanahoria",
-      "precio": "31111"
+      "name": "Jugo de Zanahoria",
+      "amount": "31111"
     },
     {
       "id": 2,
-      "nombre": "Jugo de Naranja",
-      "precio": "1"
+      "name": "Jugo de Naranja",
+      "amount": "1"
     },
     {
-      "nombre": "Jugo de Naranja",
-      "precio": "300",
+      "name": "Jugo de Naranja",
+      "amount": "300",
       "id": 3
     },
     {
-      "nombre": "Rib Eye 800g",
-      "precio": "200",
+      "name": "Rib Eye 800g",
+      "amount": "200",
       "id": 4
     },
     {
-      "nombre": "Jugo de Fresa",
-      "precio": "200",
+      "name": "Jugo de Fresa",
+      "amount": "200",
       "id": 5
     }
   ]

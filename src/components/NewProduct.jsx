@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //Actions
 import { createProductAction } from '../actions/productsActions';
-const NewProduct = () => {
+const NewProduct = ({ history }) => {
+  //Local state
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
+  //Dispatch
   const dispatch = useDispatch();
-  const addProduct = () => dispatch(createProductAction());
+  const addProduct = (product) => dispatch(createProductAction(product));
 
+  //Get into state
+  const loading = useSelector((state) => state.products.loading);
+  const error = useSelector((state) => state.products.error);
+
+  //onSubmit function
   const onSubmit = (e) => {
     e.preventDefault();
     //Check form
-
+    if (name.trim() === '' || amount <= 0) {
+      return;
+    }
     //Errors?
 
     //Create New Product
-    addProduct();
+    addProduct({ name, amount });
+    //Redirect
+    history.push('/');
   };
   return (
     <>
@@ -32,6 +45,8 @@ const NewProduct = () => {
                     className='form-control'
                     placeholder='Ej: Apple'
                     name='name'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className='form-group'>
@@ -41,6 +56,8 @@ const NewProduct = () => {
                     className='form-control'
                     placeholder='$'
                     name='amount'
+                    value={amount}
+                    onChange={(e) => setAmount(Number(e.target.value))}
                   />
                 </div>
                 <button
@@ -49,6 +66,12 @@ const NewProduct = () => {
                   Add
                 </button>
               </form>
+              {loading ? <p>Loading...</p> : null}
+              {error ? (
+                <p className='alert alert-danger p2 mt-4 text-center'>
+                  An error occurred
+                </p>
+              ) : null}
             </div>
           </div>
         </div>
