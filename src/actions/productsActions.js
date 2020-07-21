@@ -10,6 +10,10 @@ import {
   DELETE_PRODUCT,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_ERROR,
+  EDIT_PRODUCT,
+  EDIT_PRODUCT_REAL,
+  EDIT_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_ERROR,
 } from '../types';
 
 //Create new product
@@ -105,5 +109,44 @@ const deleteProductSuccess = () => ({
 
 const deleteProductError = () => ({
   type: DELETE_PRODUCT_ERROR,
+  payload: true,
+});
+
+//Edit product
+
+export function editProductAction(product) {
+  return (dispatch) => {
+    dispatch(getProductEdit(product));
+  };
+}
+
+const getProductEdit = (product) => ({
+  type: EDIT_PRODUCT,
+  payload: product,
+});
+
+export function editProductRealAction(product) {
+  return async (dispatch) => {
+    dispatch(editProduct());
+    try {
+      await axiosClient.put(`/products/${product.id}`, product);
+      dispatch(editProductSuccess(product));
+    } catch (error) {
+      dispatch(editProductError());
+    }
+  };
+}
+
+const editProduct = () => ({
+  type: EDIT_PRODUCT_REAL,
+});
+
+const editProductSuccess = (product) => ({
+  type: EDIT_PRODUCT_SUCCESS,
+  payload: product,
+});
+
+const editProductError = () => ({
+  type: EDIT_PRODUCT_ERROR,
   payload: true,
 });

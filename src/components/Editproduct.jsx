@@ -1,5 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { editProductRealAction } from '../actions/productsActions';
 const EditProduct = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  //Local State
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    amount: '',
+  });
+
+  //Get into the global state in order to get the product
+  const editProduct = useSelector((state) => state.products.edit);
+  useEffect(() => {
+    setNewProduct(editProduct);
+  }, [editProduct]);
+
+  //Get the values from input fields
+  const onChange = (e) => {
+    setNewProduct({
+      ...newProduct,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const { name, amount } = editProduct;
+
+  //Edit product function
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(editProductRealAction(newProduct));
+    history.push('/');
+  };
+
   return (
     <>
       <div className='row justify-content-center'>
@@ -9,7 +42,7 @@ const EditProduct = () => {
               <h2 className='text-center mb-4 font-weight-bold'>
                 Edit product
               </h2>
-              <form>
+              <form onSubmit={onSubmit}>
                 <div className='form-group'>
                   <label>Product Name</label>
                   <input
@@ -17,6 +50,8 @@ const EditProduct = () => {
                     className='form-control'
                     placeholder='Ej: Apple'
                     name='name'
+                    value={name}
+                    onChange={onChange}
                   />
                 </div>
                 <div className='form-group'>
@@ -26,6 +61,8 @@ const EditProduct = () => {
                     className='form-control'
                     placeholder='$'
                     name='amount'
+                    value={amount}
+                    onChange={onChange}
                   />
                 </div>
                 <button
